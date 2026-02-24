@@ -1,6 +1,9 @@
 * Introduction
-- rgRef是一个文献管理器，使用`Python`语言编写，使用高效内容查询程序`ripgrep`搜索文献
-- 本管理器在`Debian Linux`系统中开发和测试，其他类型操作系统未测试
+- `RgRef`是一个文献管理器，使用`Python`语言编写，使用高效内容查询程序`ripgrep`搜索文献
+- `RgRef`项目开发的起因
+  - `Linux`系统下好用文献管理器较少
+  - 基于数据库管理的文献管理器（如JabRef）查询大数据库速度较慢（无法忍受）
+- `RgRef`在`Debian Linux`系统中开发和测试，其他类型操作系统未测试
 
 * Installation
 ** Python
