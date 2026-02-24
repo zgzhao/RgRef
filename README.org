@@ -1,0 +1,27 @@
+* Introduction
+- rgRef是一个文献管理器，使用`Python`语言编写，使用高效内容查询程序`ripgrep`搜索文献
+- 本管理器在`Debian Linux`系统中开发和测试，其他类型操作系统未测试
+
+* Installation
+** Python
+在`PyCharm`新建conda环境`RgRef`
+- cd !/.bin/miniconda3/envs/RgRef
+- ln -s /home/zhao/A.Literature/RgRef/data/nltk_data ./
+- ln -s /home/zhao/A.Literature/RgRef/data/Kokoro-82M ./
+- conda activate RgRef
+- pip install PyQt5 PyQtWebEngine requests nltk scikit-learn wordcloud pandas pdfplumber markdown markdown.extensions
+** TTS: Kokoro-82M
+- sudo apt install espeak-ng git-lfs sox lame sdcv
+- pip install phonemizer torch transformers scipy munch kokoro soundfile
+** ripgrep
+- sudo apt install ripgrep poppler-utils
+*** TODO: recoll?
+*** TODO: xapian?
+
+
+* Problems
+** fcitx
+- find `libfcitx5platforminputcontextplugin.so` in `/usr` with `fzf -e`
+- copy or soft link this file to `site-packages/PySide6/Qt5/plugins/platforminputcontexts/` in your python environment
+
+
