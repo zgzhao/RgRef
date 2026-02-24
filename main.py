@@ -5,7 +5,7 @@ from PyQt5.QtGui import QCloseEvent, QPixmap, QIcon
 from PyQt5.QtWidgets import (QMainWindow, QApplication, QMessageBox, QSplashScreen, QStatusBar, QMenuBar, QMenu, QWidget,
                              QToolBar, QAction)
 from refman.varsys import *
-from refman.config import UserConfig, setFontSize
+from refman.config import UserConfig, setFontSize, setDesktopFile
 from refman.widget import CleanSpacer, DbJournalStat
 from refman.appmain import AppLayout
 
@@ -429,4 +429,5 @@ if __name__ == '__main__':
         sys.exit(1)
     splash.show()
     win.show()
+    setDesktopFile()
     sys.exit(app.exec())

@@ -12,7 +12,7 @@ def setDesktopFile():
     pid = os.popen('which python')
     python = pid.read().strip()
     home_dir = os.path.expandvars('$HOME')
-    dfile = os.path.join(home_dir, '.local/share/applications/', 'RgRef.desktop')
+    dfile = os.path.join(home_dir, '.local/share/applications', 'RgRef.desktop')
     if not os.path.exists(dfile) and python != '':
         with open(dfile, 'w') as f:
             contents = ['[Desktop Entry]',
@@ -21,7 +21,7 @@ def setDesktopFile():
                         'Comment = 基于ripgrep的文献管理器',
                         f'Icon = {DIR_APP}/images/ppmb.png',
                         'Terminal = false',
-                        f'Exec = {python} {DIR_APP}/RgRef.py',
+                        f'Exec = {python} {DIR_APP}/main.py',
                         'Categories = Office;']
             f.write('\n'.join(contents))
     #
@@ -199,7 +199,6 @@ class EditorConfig(QDialog):
         if color.isValid():
             wgt.setText(color.name())
     def save(self):
-        setDesktopFile()
         ## 使用正则表达式查询控件名称以获取控件
         wgts = self.findChildren(QWidget, QtCore.QRegularExpression('^CONFIG'))
         for itx in wgts:
