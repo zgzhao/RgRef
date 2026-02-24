@@ -2,7 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/data/Kokoro-82M" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/data/MegaTTS3" vcs="Git" />
   </component>
 </project>

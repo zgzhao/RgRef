@@ -1,5 +1,4 @@
-import os.path
-import sys
+import sys, os.path
 
 def current_file_path():
     if getattr(sys, 'frozen', False):
@@ -13,11 +12,9 @@ def current_file_path():
 DIR_PYTHON = sys.exec_prefix
 ## folders and icons
 DIR_APP = os.path.realpath(os.path.join(current_file_path(), '..'))
-DIR_CONF = os.path.join(DIR_APP, 'config')
 DIR_IMG = os.path.join(DIR_APP, 'images')
 DIR_DOC = os.path.join(DIR_APP, 'doc')
-DIR_TEMP = os.path.join(DIR_APP, 'TEMP')
-PDFJS = os.path.join(DIR_APP, 'assets', 'pdfjs', 'web', 'viewer.html')
+DIR_CSS = os.path.join(DIR_APP, 'assets', 'css')
 
 ## ICONS ------------------------------------------
 ICON_APP = os.path.join(DIR_IMG, 'ppmb.png')

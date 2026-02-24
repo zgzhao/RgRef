@@ -377,7 +377,7 @@ class XWindow(QMainWindow):
         self.setWindowTitle('rgRef - 基于ripgrep的文献管理')
         self.UIs = mainWin.UIs
         # stylesheet
-        sfile = os.path.join(DIR_CONF, 'styles.css')
+        sfile = os.path.join(DIR_CSS, 'styles.css')
         if os.path.exists(sfile):
             with open(sfile) as f:
                 self.setStyleSheet(f.read())

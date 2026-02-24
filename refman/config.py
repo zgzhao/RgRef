@@ -11,8 +11,9 @@ def setDesktopFile():
         return False
     pid = os.popen('which python')
     python = pid.read().strip()
-    if python != '':
-        dfile = os.path.join(DIR_CONF, '..', 'RgRef.desktop')
+    home_dir = os.path.expandvars('$HOME')
+    dfile = os.path.join(home_dir, '.local/share/applications/', 'RgRef.desktop')
+    if not os.path.exists(dfile) and python != '':
         with open(dfile, 'w') as f:
             contents = ['[Desktop Entry]',
                         'Type = Application',
@@ -23,6 +24,7 @@ def setDesktopFile():
                         f'Exec = {python} {DIR_APP}/RgRef.py',
                         'Categories = Office;']
             f.write('\n'.join(contents))
+    #
 class UserConfig(dict):
     def __init__(self):
         super().__init__()
@@ -86,8 +88,8 @@ class EditorConfig(QDialog):
         panel1 = QFormLayout()
         panel1.setFormAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
         panel1.setLabelAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
-        label1 = ['用户目录', 'Kokoro-82M目录', 'pdfannots程序', 'PubMed API key', '评分底色']
-        item1 = ['dir_user', 'dir_kokoro', 'pdfannots', 'pubmed_key', 'rank_color']
+        label1 = ['用户目录', 'Kokoro-82M目录', 'pdfannots程序', 'pdfjs viewer', 'PubMed API key', '评分底色']
+        item1 = ['dir_user', 'dir_kokoro', 'pdfannots', 'pdfviewer', 'pubmed_key', 'rank_color']
         for lbx,itx in zip(label1, item1):
             wgt = QLineEdit()
             val = self.uconf.get(itx, '')
@@ -106,6 +108,11 @@ class EditorConfig(QDialog):
                 iconOpen.setIcon(QIcon(ICON_FILE_OPEN))
                 wgt.addAction(iconOpen, QLineEdit.ActionPosition.TrailingPosition)
                 iconOpen.triggered.connect(self.getPathPDFanno)
+            elif itx == 'pdfviewer':
+                iconOpen = QAction(wgt)
+                iconOpen.setIcon(QIcon(ICON_FILE_OPEN))
+                wgt.addAction(iconOpen, QLineEdit.ActionPosition.TrailingPosition)
+                iconOpen.triggered.connect(self.getPathPDFviewer)
             elif itx == 'rank_color':
                 iconOpen= QAction(wgt)
                 iconOpen.setIcon(QIcon(ICON_COLOR))
@@ -166,10 +173,10 @@ class EditorConfig(QDialog):
         self.btnSave.clicked.connect(self.save)
     def close(self):
         self.hide()
-    def getPath(self, cname: str):
+    def getFilePath(self, cname: str, ft: str=None):
         xname = f'CONFIGTXT{cname}'
         wgt = self.findChild(QLineEdit, xname)
-        info = QFileDialog.getOpenFileName(None, '选择文件', wgt.text())
+        info = QFileDialog.getOpenFileName(None, '选择文件', wgt.text(), ft)
         if info[0]:
             wgt.setText(info[0])
     def getFolder(self, cname: str):
@@ -183,8 +190,9 @@ class EditorConfig(QDialog):
     def getDirKokoro(self):
         self.getFolder('dir_kokoro')
     def getPathPDFanno(self):
-        self.getPath('pdfannots')
-
+        self.getFilePath('pdfannots')
+    def getPathPDFviewer(self):
+        self.getFilePath('pdfviewer', "html(*.html)")
     def getColor(self):
         wgt = self.findChild(QLineEdit, "CONFIGTXTrank_color")
         color = QColorDialog().getColor()

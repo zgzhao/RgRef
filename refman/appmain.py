@@ -151,13 +151,14 @@ class QViewerPDF(QWebEngineView):
         self.settings().setAttribute(QWebEngineSettings.WebAttribute.FullScreenSupportEnabled, True)
         # 文件另存请求
         QWebEngineProfile.defaultProfile().downloadRequested.connect(self.on_downloadRequested)
+        self.pdfjs_viewer = UserConfig().get("pdfviewer", "")
     def sizeHint(self):
         return QSize(800, 900)
     def minimumSizeHint(self):
         return QSize(400, 200)
     def loadFile(self, filename):
         url = QUrl.fromLocalFile(filename).toString()
-        url = f'file://{PDFJS}?file={url}'
+        url = f'file://{self.pdfjs_viewer}?file={url}'
         self.load(QUrl.fromUserInput(url))
     def on_downloadRequested(self, download):
         path, _ = QFileDialog.getSaveFileName(
@@ -1216,7 +1217,7 @@ class ENoteBook(EWidget):
         self.ViewNotes.show()
     def setView(self, content):
         if self.styleCSS == "":
-            style_file = os.path.join(DIR_CONF, 'notebook.css')
+            style_file = os.path.join(DIR_CSS, 'notebook.css')
             if os.path.exists(style_file):
                 with open(style_file, 'r', encoding='utf-8') as f:
                     self.styleCSS = f.read()
