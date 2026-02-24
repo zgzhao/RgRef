@@ -505,7 +505,6 @@ class QViewerBibTable(QTableWidget):
         for item in self.gCachedBitemList:
             if inList(item.get('bibkey'), bkeys):
                 item.update({'rank': n})
-                item.save()
         self.updateTableView()
     def decRank(self):
         for i in self.selectedRows():
@@ -1023,95 +1022,6 @@ class QEditorMemo(QTextEdit):
         return QSize(100, 800)
     def minimumSizeHint(self):
         return QSize(100, 200)
-class QEditorNote(QTextEdit):
-    message = QtCore.pyqtSignal(list)
-    last_content = ''
-    currentPath = 'NoName'
-    manualSave = False
-    def __int__(self):
-        super().__init__()
-        self.setAcceptDrops(False)
-        uconf = UserConfig()
-        md_font = QFont()
-        md_font.setPointSize(uconf.get('font_size_basic'))
-        self.setFont(md_font)
-        self.setAutoFormatting(QTextEdit.AutoAll)
-        #
-    def sizeHint(self):
-        return QSize(800, 400)
-    def minimumSizeHint(self):
-        return QSize(100, 200)
-    def setEdtContent(self, filepath, dontSave: bool=False):
-        if not (dontSave or self.isReadOnly() or not self.isEnabled()):
-            self.save()
-        self.clear()
-        if filepath.endswith('NoName'):
-            return False
-        ##
-        html_file = f'{filepath}.html'
-        md_file = f'{filepath}.md'
-        self.currentPath = filepath
-        txt = ''
-        if os.path.exists(html_file):
-            with open(html_file) as f:
-                raw = [x for x in f]
-                txt = ''.join(raw)
-                txt = re.sub(r'font-size:\s*\d+pt;', '', txt)
-            self.setHtml(txt)
-            self.save(silent=True)
-            os.unlink(html_file)
-            txt = self.toMarkdown()
-        elif os.path.exists(md_file):
-            with open(md_file) as f:
-                raw = [x for x in f]
-                txt = '\n'.join(raw)
-        if self.viewMarkdown:
-            self.setPlainText(txt)
-        else:
-            #txt = re.sub(r'\|\n( *\n)+\|', '|\n|', txt)
-            self.render_markdown(txt)
-        self.last_content = txt
-    def reloadContent(self):
-        self.setEdtContent(self.currentPath, True)
-    def save(self, silent: bool=False):
-        if self.isReadOnly() or not self.isEnabled():
-            self.manualSave = False
-            return False
-        currentFile = f'{self.currentPath}.md'
-        hasFile = os.path.exists(currentFile)
-        if self.viewMarkdown:
-            contents = self.toPlainText()
-        else:
-            contents = self.toMarkdown()
-        if contents.strip() == '':
-            if hasFile:
-                os.remove(currentFile)
-                if self.manualSave:
-                    self.message.emit(['文献笔记已删除！', 'normal'])
-            elif self.manualSave and not silent:
-                self.message.emit(['无需保存笔记', 'normal'])
-            self.manualSave = False
-            return True
-        # 内容、格式无变化
-        if contents == self.last_content:
-            if self.manualSave and not silent:
-                self.manualSave = False
-                self.message.emit(['无需保存笔记', 'normal'])
-            return True
-        msn = '文件保存失败！'
-        status = 'warn'
-        with open(currentFile, 'w') as f:
-            try:
-                f.write(contents)
-                self.last_content = contents
-                msn = '笔记保存已保存！'
-                status = 'ok'
-            except IOError:
-                pass
-        if self.manualSave and not silent:
-            self.message.emit([msn, status])
-        self.manualSave = False
-        return True
 class ENoteBook(EWidget):
     signalForceExPDFanno = QtCore.pyqtSignal(bool)
     def __init__(self):
@@ -1160,11 +1070,12 @@ class ENoteBook(EWidget):
         self.styleCSS = ""
         self.last_content = ""
         self.loading = True
-        self.md_file = "NoName"
+        self.md_file = "NoName.md"
         ##
     def emitForceUpdate(self):
         self.signalForceExPDFanno.emit(True)
     def setData(self, data: dict):
+        self.loading = True
         bkey = data.get('bibkey', 'NoName')
         duser = UserConfig().get('dir_user')
         dnote = os.path.join(duser, 'notes')
@@ -1178,7 +1089,6 @@ class ENoteBook(EWidget):
                 self.ViewNotes.setHtml(html)
                 self.EdtNotes.setHtml(html)
                 content = self.EdtNotes.toMarkdown()
-                self.EdtNotes.save(silent=True)
             os.unlink(html_file)
         elif os.path.exists(self.md_file):
             with open(self.md_file, 'r', encoding='utf-8') as f:
@@ -1238,7 +1148,7 @@ class ENoteBook(EWidget):
         self.ViewNotes.setHtml(html)
         ##
     def auto_save(self):
-        if self.loading:
+        if self.loading or self.md_file.endswith("NoName.md"):
             return False
         content = self.EdtNotes.toPlainText()
         # 检查内容是否有变化
