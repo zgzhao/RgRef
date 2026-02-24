@@ -1,0 +1,138 @@
+/* Markdown 渲染样式 */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #333;
+  background-color: #fff;
+  margin: 20px;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #800000;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  margin: 60px 0 10px 0;
+}
+
+h2 {
+  font-size: 1.7rem;
+  color: #A52A2A;
+  margin: 30px 0 10px 0;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #A0522D;
+  margin: 20px 0 10px 0;
+}
+
+h4, h5, h6 {
+  font-size: 1.2rem;
+  color: #D2691E;
+  margin: 5px 0;
+}
+
+p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+ul, ol {
+  margin: 0 0 10px 0;
+  padding-left: 25px;
+}
+
+li {
+  font-size: 1rem;
+  margin: 0;
+}
+
+a {
+  font-size: 1rem;
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+pre {
+  font-size: 1rem;
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+blockquote {
+  font-size: 1rem;
+  border-left: 4px solid #3498db;
+  padding-left: 15px;
+  margin-left: 0;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+th, td {
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  font-size: 1rem;
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+think {
+  font-family: '楷体', '方正楷体', Times, 'Times New Roman';
+  font-size: 0.9rem;
+  color: #4682B4;
+}
+
+.highlight {
+  color: #ff4500;
+  background-color: yellow;
+}

@@ -5,23 +5,35 @@
 * Installation
 ** Python
 在`PyCharm`新建conda环境`RgRef`
-- cd !/.bin/miniconda3/envs/RgRef
-- ln -s /home/zhao/A.Literature/RgRef/data/nltk_data ./
-- ln -s /home/zhao/A.Literature/RgRef/data/Kokoro-82M ./
 - conda activate RgRef
 - pip install PyQt5 PyQtWebEngine requests nltk scikit-learn wordcloud pandas pdfplumber markdown markdown.extensions
-** TTS: Kokoro-82M
-- sudo apt install espeak-ng git-lfs sox lame sdcv
-- pip install phonemizer torch transformers scipy munch kokoro soundfile
 ** ripgrep
 - sudo apt install ripgrep poppler-utils
-*** TODO: recoll?
-*** TODO: xapian?
+** TTS: Kokoro-82M
+- sudo apt install espeak-ng git-lfs sox lame sdcv
+- conda activate RgRef
+- pip install phonemizer torch transformers scipy munch kokoro soundfile
 
+** Kokoro-82M
+- Refer to [[https://huggingface.co/hexgrad/Kokoro-82M]]
+
+** nltk_data (optional, 暂时不用)
+- corpora手工下载：https://github.com/nltk/nltk_data/tree/gh-pages
+- 解压缩把packages目录链接到下面任一位置即可
+  - $HOME/nltk_data
+  - $DIR_PYTHON_BIN/../nltk_data
+  - /usr/nltk_data
+  - /usr/share/nltk_data
+  - /usr/lib/nltk_data
+  - /usr/share/nltk_data
+  - /usr/local/share/nltk_data
+  - /usr/lib/nltk_data
+  - /usr/local/lib/nltk_data
 
 * Problems
 ** fcitx
+若无法启动fcitx/fcitx5，可尝试：
 - find `libfcitx5platforminputcontextplugin.so` in `/usr` with `fzf -e`
-- copy or soft link this file to `site-packages/PySide6/Qt5/plugins/platforminputcontexts/` in your python environment
+- copy or soft link this file to `lib/python3.1/site-packages/PyQt5/Qt5/plugins/platforminputcontexts/` in your python environment
 
 

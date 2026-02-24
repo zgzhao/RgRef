@@ -1,0 +1,60 @@
+* {
+  outline: none;
+}
+
+QHBoxLayout, QVBoxLayout, QFormLayout, TabBitemEditor {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+QTreeWidget {
+  padding: 20px 10px;
+  background: #eeeeee;
+  border: none;
+}
+
+QTabWidget {
+  margin: 0;
+  padding: 0;
+}
+
+QLineEdit, QTextEdit, QTextBrowser {
+  border: 1px solid #cccccc;
+  border-radius: 1px;
+}
+
+QLineEdit:focus, QTextEdit:focus {
+  border: 2px solid #FFB6C1;
+}
+
+QTextBrowser:focus {
+  border: 1px solid #cccccc;
+}
+
+QTextBrowser {
+  border: 1px solid #cccccc;
+  margin: -1px;
+  padding: 0;
+}
+
+QSplitter::handle:horizontal {
+    width: 0px;
+}
+
+QSplitter::handle:vertical {
+    height: 0px;
+}
+
+QStatusBar {
+    border-top: 1px solid gray;
+}
+
+QComboBox {
+    min-width: 3em;
+}
+
+QPushButton {
+	min-width: 40px;
+	padding: 5px;
+}

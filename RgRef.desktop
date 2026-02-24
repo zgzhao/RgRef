@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type = Application
+Name = ripgrep Reference Manager
+Comment = 基于ripgrep的文献管理器
+Icon = /home/zhao/A.Bioinfo/github/RgRef/images/ppmb.png
+Terminal = false
+Exec = /home/zhao/.bin/miniconda3/envs/RgRef/bin/python /home/zhao/A.Bioinfo/github/RgRef/RgRef.py
+Categories = Office;
