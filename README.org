@@ -7,7 +7,7 @@
 
 * Installation
 ** Python
-在`PyCharm`新建conda环境`RgRef`
+在PyCharm新建conda环境RgRef：
 - conda activate RgRef
 - pip install PyQt5 PyQtWebEngine requests nltk scikit-learn wordcloud pandas pdfplumber markdown markdown.extensions
 ** ripgrep
