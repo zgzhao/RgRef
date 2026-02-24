@@ -488,15 +488,17 @@ class QViewerBibTable(QTableWidget):
         self.setLastBibkey(min(self.selectedRows()))
         for bitem in self.selectedShow():
             bitem.marked()
+        n = len(self.selectedShow())
+        self.message.emit([f'Marked {n} items.', 'normal'])
         self.markedItemChanged.emit(True)
     def unmarkSelectedItems(self):
+        if self.currentGroup != 'Marked':
+            return False
         for bitem in self.selectedShow():
             bitem.unmarked()
-        if self.currentGroup == 'Marked':
-            self.setLastBibkey(min(self.selectedRows()) - 1)
-            self.updateTableView()
+        self.setLastBibkey(min(self.selectedRows()) - 1)
+        self.updateTableView()
         self.markedItemChanged.emit(True)
-
     def setRank(self, n, ndx=None):
         if not ndx:
             bkeys = self.selectedKeys()
@@ -2008,6 +2010,7 @@ class AppLayout(QVBoxLayout):
         self.GlobSearch.find.connect(self.dispatchFind)
         self.GlobGroup.signalGroupChanged.connect(self.dispatchGrpChanged)
         self.GlobTable.message.connect(self.receiveMSN)
+        self.GlobTable.markedItemChanged.connect(self.reloadMarked)
         ## 系统设置对话框
         self.ConfigDialog = EditorConfig()
         #self.ConfigDialog.signalSaved.connect(self.xconfig)
@@ -2124,7 +2127,7 @@ class AppLayout(QVBoxLayout):
         blist = data.get('blist')
         etime = data.get('time')
         self.gCachedBitemList.extend(blist)
-        if etime:
+        if etime and gname != 'Marked':
             nbibs = len(blist)
             self.showMessage(f'{gname}查询完成，缓存文献数量：{nbibs} (查询耗时{etime:.3f}秒)', 'ok')
         bkeys = {x.get('bibkey') for x in blist}
@@ -2164,8 +2167,11 @@ class AppLayout(QVBoxLayout):
         self.GlobTable.currentGroup = gname
         self.GlobRPanel.BibAbstract.currentGroup = gname
         self.GlobRPanel.ListFrame.passFilterAndSort()
-    def executeSearch(self):
-        gname = self.currentGroup()
+    def reloadMarked(self):
+        self.executeSearch("Marked")
+    def executeSearch(self, gname: str=""):
+        if gname == "":
+            gname = self.currentGroup()
         self.resetGroup(gname)
         while self.ThreadSearch and self.ThreadSearch.isRunning():
             time.sleep(0.1)
@@ -2194,7 +2200,8 @@ class AppLayout(QVBoxLayout):
             self.ThreadSearch = runXSearch(gname, groupKeywords, searchin)
         ## ----------------------
         self.tasknum += 1
-        self.showMessage(f'查询任务 <No.{self.tasknum}> 运行中，请稍候 ...', 'alert')
+        if gname != "Marked":
+            self.showMessage(f'查询任务 <No.{self.tasknum}> 运行中，请稍候 ...', 'alert')
         self.ThreadSearch.start()
         if self.ThreadSearch and self.ThreadSearch.isRunning():
             self.ThreadSearch.setPriority(QtCore.QThread.Priority.HighestPriority)
