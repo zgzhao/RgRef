@@ -39,6 +39,19 @@ Refer to [[https://huggingface.co/hexgrad/Kokoro-82M]]
 - 选定文本查询（使用stardict和sdcv）与朗读
 - 摘要朗读（使用Kokoro-82M模型）
 
+* Screenshot
+** 基本界面
+  [[file:screenshot/1-basic.png]]
+
+** 文献笔记、PDF注释
+  [[file:screenshot/2-notebook.png]]
+  [[file:screenshot/3-notebook.png]]
+** Pubmed在线查询
+  [[file:screenshot/4-pubmed-search.png]]
+** 字典查询
+  [[file:screenshot/5-sdcv.png]]
+  [[file:screenshot/6-sdcv.png]]
+
 * Problems
 ** fcitx输入法
 若无法启动fcitx/fcitx5，可尝试：
